@@ -1,0 +1,45 @@
+/**
+ * @teamsparta/rich-editor — 최소 CSS
+ *
+ * Tailwind 없이도 동작하는 기본 UX(border·focus·placeholder)를 제공한다.
+ * 소비자는 `import '@teamsparta/rich-editor/styles.css'`로 이 파일을 가져오고,
+ * 필요 시 Tailwind 또는 자체 CSS로 override한다.
+ *
+ * 규칙: 내부 구현은 Tailwind 유틸 클래스에 의존하지 않는다 (rte-* 네임스페이스만).
+ */
+
+.rte-editor {
+  border: 1px solid #d4d4d8;
+  border-radius: 6px;
+  padding: 12px 16px;
+  min-height: 120px;
+  background: #ffffff;
+}
+
+.rte-editor:focus-within {
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
+  border-color: transparent;
+}
+
+.rte-editor .ProseMirror {
+  outline: none;
+  line-height: 1.6;
+  min-height: inherit;
+}
+
+.rte-editor .ProseMirror p {
+  margin: 0 0 0.5em;
+}
+
+.rte-editor .ProseMirror p:last-child {
+  margin-bottom: 0;
+}
+
+.rte-editor .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #a1a1aa;
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
