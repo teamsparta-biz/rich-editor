@@ -12,6 +12,9 @@ build/
 .env.local
 .env.*.local
 
+# npm auth (GitHub Packages PAT 보호)
+.npmrc
+
 # Logs
 *.log
 npm-debug.log*
