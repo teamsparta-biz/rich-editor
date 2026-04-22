@@ -1,0 +1,7 @@
+{
+  "name": "playground",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Demo and regression playground for @teamsparta/rich-editor",
+  "type": "module"
+}
