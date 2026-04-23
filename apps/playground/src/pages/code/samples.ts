@@ -1,0 +1,15 @@
+export const SAMPLE_HTML = [
+  '<p>아래 샘플은 <strong>codeBlock · taskList</strong> 확장을 시연합니다.</p>',
+  '<pre><code class="language-javascript">const greet = (name) => `Hello, ${name}!`\nconsole.log(greet(\'playground\'))</code></pre>',
+  '<pre><code class="language-python">def greet(name):\n    return f"Hello, {name}!"\n\nprint(greet("playground"))</code></pre>',
+  '<ul data-type="taskList">',
+  '<li data-checked="true"><label><input type="checkbox" checked="checked"><span></span></label><div>타입체크 통과</div></li>',
+  '<li data-checked="false"><label><input type="checkbox"><span></span></label><div>빌드 산출물 확인',
+  '<ul data-type="taskList">',
+  '<li data-checked="false"><label><input type="checkbox"><span></span></label><div>dist/index.mjs · cjs · d.ts · styles.css</div></li>',
+  '<li data-checked="false"><label><input type="checkbox"><span></span></label><div>README 반영</div></li>',
+  '</ul>',
+  '</div></li>',
+  '<li data-checked="false"><label><input type="checkbox"><span></span></label><div>round-trip 수동 검증</div></li>',
+  '</ul>',
+].join('')

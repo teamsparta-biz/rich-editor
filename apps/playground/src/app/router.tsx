@@ -1,6 +1,8 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { App } from './App'
 import { BasicsPage } from '../pages/basics/page'
+import { TextPage } from '../pages/text/page'
+import { CodePage } from '../pages/code/page'
 
 export const router = createBrowserRouter([
   {
@@ -9,6 +11,8 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/basics" replace /> },
       { path: 'basics', element: <BasicsPage /> },
+      { path: 'text', element: <TextPage /> },
+      { path: 'code', element: <CodePage /> },
       {
         path: '*',
         element: (
