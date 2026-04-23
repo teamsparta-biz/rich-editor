@@ -1,20 +1,40 @@
 import type { Extension, Mark, Node } from '@tiptap/core'
-import type { ExtensionInput, ExtensionKey, ExtensionSpec } from '../types'
+import type {
+  ExtensionInput,
+  ExtensionKey,
+  ExtensionOptionsMap,
+  ExtensionSpec,
+} from '../types'
 import { coreExtensionFactory } from './core'
+import { headingsExtensionFactory } from './headings'
+import { listsExtensionFactory } from './lists'
+import { linksExtensionFactory } from './links'
+import { codeBlockExtensionFactory } from './codeBlock'
+import { taskListExtensionFactory } from './taskList'
+import { imagesExtensionFactory } from './images'
+import { tablesExtensionFactory } from './tables'
 
-type ExtensionFactory = (options?: Record<string, unknown>) => (Extension | Node | Mark)[]
+type ExtensionFactory<K extends ExtensionKey> = (
+  options?: ExtensionOptionsMap[K],
+) => (Extension | Node | Mark)[]
 
-interface ExtensionEntry {
-  key: ExtensionKey
-  factory: ExtensionFactory
+type RegistryEntries = {
+  [K in ExtensionKey]: { key: K; factory: ExtensionFactory<K> }
 }
 
-const registry: Record<ExtensionKey, ExtensionEntry> = {
+const registry: RegistryEntries = {
   core: { key: 'core', factory: coreExtensionFactory },
+  headings: { key: 'headings', factory: headingsExtensionFactory },
+  lists: { key: 'lists', factory: listsExtensionFactory },
+  links: { key: 'links', factory: linksExtensionFactory },
+  codeBlock: { key: 'codeBlock', factory: codeBlockExtensionFactory },
+  taskList: { key: 'taskList', factory: taskListExtensionFactory },
+  images: { key: 'images', factory: imagesExtensionFactory },
+  tables: { key: 'tables', factory: tablesExtensionFactory },
 }
 
 function normalize(input: ExtensionInput): ExtensionSpec {
-  return typeof input === 'string' ? { key: input } : input
+  return typeof input === 'string' ? ({ key: input } as ExtensionSpec) : input
 }
 
 export function resolveExtensions(
@@ -33,6 +53,8 @@ export function resolveExtensions(
       }
       return []
     }
-    return entry.factory(spec.options)
+    // entry·spec의 key가 동일하므로 options 타입이 일치함을 TS가 추론하지 못해 캐스팅.
+    const factory = entry.factory as ExtensionFactory<ExtensionKey>
+    return factory(spec.options)
   })
 }

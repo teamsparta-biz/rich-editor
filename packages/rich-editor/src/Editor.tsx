@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from 'react'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { htmlSerializer } from './serialization/HtmlSerializer'
 import { resolveExtensions } from './extensions/registry'
-import type { ExtensionInput, RichEditorProps } from './types'
+import type { CoreExtensionOptions, ExtensionInput, RichEditorProps } from './types'
 
 /**
  * `placeholder` prop이 주어지면 core 스펙의 options로 주입.
@@ -16,15 +16,17 @@ function mergePlaceholder(
   const base = inputs && inputs.length > 0 ? inputs : (['core'] as ExtensionInput[])
   if (!placeholder) return base
 
-  return base.map((item) => {
-    const spec = typeof item === 'string' ? { key: item } : item
-    if (spec.key !== 'core') return item
-    const hasPlaceholder =
-      spec.options && Object.prototype.hasOwnProperty.call(spec.options, 'placeholder')
-    if (hasPlaceholder) return item
+  return base.map((item): ExtensionInput => {
+    if (typeof item === 'string') {
+      if (item !== 'core') return item
+      return { key: 'core', options: { placeholder } }
+    }
+    if (item.key !== 'core') return item
+    const coreOptions = item.options as CoreExtensionOptions | undefined
+    if (coreOptions && 'placeholder' in coreOptions) return item
     return {
-      key: 'core' as const,
-      options: { ...(spec.options ?? {}), placeholder },
+      key: 'core',
+      options: { ...(coreOptions ?? {}), placeholder },
     }
   })
 }

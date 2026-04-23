@@ -23,6 +23,7 @@ export default defineConfig({
         '@tiptap/extension-history',
         '@tiptap/extension-placeholder',
         'tailwindcss',
+        /^@tiptap\/pm($|\/)/,
       ],
       output: {
         assetFileNames: (assetInfo) => {
