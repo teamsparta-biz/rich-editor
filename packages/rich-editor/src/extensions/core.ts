@@ -4,16 +4,12 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import History from '@tiptap/extension-history'
 import Placeholder from '@tiptap/extension-placeholder'
-
-export type CoreExtensionOptions = {
-  placeholder?: string
-}
+import type { CoreExtensionOptions } from '../types'
 
 export function coreExtensionFactory(
-  options?: Record<string, unknown>,
+  options?: CoreExtensionOptions,
 ): (Extension | Node | Mark)[] {
-  const placeholderText =
-    typeof options?.['placeholder'] === 'string' ? (options['placeholder'] as string) : ''
+  const placeholderText = options?.placeholder ?? ''
 
   return [
     Document,

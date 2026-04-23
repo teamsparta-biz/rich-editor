@@ -6,6 +6,13 @@ export type {
   ExtensionInput,
   ExtensionKey,
   ExtensionSpec,
+  ExtensionOptionsMap,
   RichEditorProps,
   Serializer,
+  CoreExtensionOptions,
+  HeadingsExtensionOptions,
+  ListsExtensionOptions,
+  LinksExtensionOptions,
+  CodeBlockExtensionOptions,
+  TaskListExtensionOptions,
 } from './types'

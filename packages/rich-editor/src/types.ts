@@ -4,27 +4,80 @@ export type { Editor }
 
 /**
  * 확장 키.
- * Phase 11 단계에서는 'core' 하나만 유효.
- * Phase 12 이후 'headings' | 'lists' | ... 가 추가된다 (비-브레이킹 확장).
+ * Phase 11: 'core'
+ * Phase 12 B1: + 'headings' | 'lists' | 'links' | 'codeBlock' | 'taskList' (비-브레이킹 추가)
+ * Phase 12 B2: + 'images' | 'tables' (후속)
  */
-export type ExtensionKey = 'core'
+export type ExtensionKey =
+  | 'core'
+  | 'headings'
+  | 'lists'
+  | 'links'
+  | 'codeBlock'
+  | 'taskList'
+
+/**
+ * 공개 옵션 타입.
+ * 각 확장의 기본값·필드는 0.x 동안 동결 대상.
+ */
+
+export interface CoreExtensionOptions {
+  placeholder?: string
+}
+
+export interface HeadingsExtensionOptions {
+  levels?: (1 | 2 | 3 | 4 | 5 | 6)[]
+}
+
+export interface ListsExtensionOptions {
+  nestedLists?: boolean
+}
+
+export interface LinksExtensionOptions {
+  openOnClick?: boolean
+  autolink?: boolean
+  defaultProtocol?: 'http' | 'https'
+  HTMLAttributes?: Record<string, unknown>
+}
+
+export interface CodeBlockExtensionOptions {
+  languages?: string[]
+  defaultLanguage?: string
+}
+
+export interface TaskListExtensionOptions {
+  nestedTasks?: boolean
+}
+
+/**
+ * 키별 옵션 매핑 — ExtensionSpec이 키에 따라 options 타입을 좁히는 근거.
+ */
+export interface ExtensionOptionsMap {
+  core: CoreExtensionOptions
+  headings: HeadingsExtensionOptions
+  lists: ListsExtensionOptions
+  links: LinksExtensionOptions
+  codeBlock: CodeBlockExtensionOptions
+  taskList: TaskListExtensionOptions
+}
 
 /**
  * 확장 스펙 — 공개 API 3원칙 중 "문자열 키 + 옵션"의 구체 타입.
+ * 키별로 options 타입이 좁혀진다.
  */
 export interface ExtensionSpec<K extends ExtensionKey = ExtensionKey> {
   key: K
-  options?: Record<string, unknown>
+  options?: ExtensionOptionsMap[K]
 }
 
 /**
  * 확장 인풋 — 문자열만으로도, 옵션 포함 객체로도 지정 가능.
+ * `{ key: 'headings', options: { levels: [1, 2] } }`처럼 키와 옵션이 짝을 이룬다.
  */
-export type ExtensionInput = ExtensionKey | ExtensionSpec
+export type ExtensionInput = ExtensionKey | { [K in ExtensionKey]: ExtensionSpec<K> }[ExtensionKey]
 
 /**
  * 직렬화 계층 인터페이스.
- * HtmlSerializer 외 Phase 12 이후 ProseMirror JSON Serializer 등이 같은 계약으로 추가된다.
  */
 export interface Serializer {
   toHtml: (editor: Editor) => string
@@ -42,7 +95,7 @@ export interface RichEditorProps {
   initialHtml?: string
   /** HTML 변경 시 호출 */
   onChangeHtml?: (html: string) => void
-  /** 확장 입력. 기본값 ['core']. Phase 11은 'core'만 유효 */
+  /** 확장 입력. 기본값 ['core']. */
   extensions?: ExtensionInput[]
   /** 편집 비활성 여부. 기본값 false */
   readOnly?: boolean
