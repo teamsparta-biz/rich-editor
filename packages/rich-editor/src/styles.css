@@ -166,3 +166,27 @@
   color: #52525b;
   margin: 0.75em 0;
 }
+
+/* images */
+.rte-editor .ProseMirror figure {
+  margin: 1em 0;
+  display: block;
+}
+.rte-editor .ProseMirror figure img,
+.rte-editor .ProseMirror > img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+}
+.rte-editor .ProseMirror figcaption {
+  color: #71717a;
+  font-size: 0.875em;
+  margin-top: 0.5em;
+  text-align: center;
+  min-height: 1.2em;
+}
+.rte-editor .ProseMirror figcaption:empty::before {
+  content: attr(data-placeholder);
+  color: #d4d4d8;
+}

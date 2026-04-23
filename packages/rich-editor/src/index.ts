@@ -15,4 +15,5 @@ export type {
   LinksExtensionOptions,
   CodeBlockExtensionOptions,
   TaskListExtensionOptions,
+  ImageExtensionOptions,
 } from './types'

@@ -11,6 +11,7 @@ import { listsExtensionFactory } from './lists'
 import { linksExtensionFactory } from './links'
 import { codeBlockExtensionFactory } from './codeBlock'
 import { taskListExtensionFactory } from './taskList'
+import { imagesExtensionFactory } from './images'
 
 type ExtensionFactory<K extends ExtensionKey> = (
   options?: ExtensionOptionsMap[K],
@@ -27,6 +28,7 @@ const registry: RegistryEntries = {
   links: { key: 'links', factory: linksExtensionFactory },
   codeBlock: { key: 'codeBlock', factory: codeBlockExtensionFactory },
   taskList: { key: 'taskList', factory: taskListExtensionFactory },
+  images: { key: 'images', factory: imagesExtensionFactory },
 }
 
 function normalize(input: ExtensionInput): ExtensionSpec {

@@ -15,6 +15,7 @@ export type ExtensionKey =
   | 'links'
   | 'codeBlock'
   | 'taskList'
+  | 'images'
 
 /**
  * 공개 옵션 타입.
@@ -49,6 +50,21 @@ export interface TaskListExtensionOptions {
   nestedTasks?: boolean
 }
 
+export interface ImageExtensionOptions {
+  /** 업로드 훅. 미주입 시 이미지 삽입 거부. */
+  imageUpload?: (file: File) => Promise<string>
+  /** true면 `<figure><img><figcaption>` 구조. false면 `<img>`만. default `true` */
+  allowCaption?: boolean
+  /** 클립보드 이미지 붙여넣기 수용. default `true` */
+  allowPaste?: boolean
+  /** 파일 드래그앤드롭 수용. default `true` */
+  allowDrop?: boolean
+  /** 허용 MIME 타입. default `['image/png','image/jpeg','image/gif']` */
+  acceptedTypes?: string[]
+  /** 최대 바이트. 초과 시 삽입 거부. default 없음 */
+  maxSize?: number
+}
+
 /**
  * 키별 옵션 매핑 — ExtensionSpec이 키에 따라 options 타입을 좁히는 근거.
  */
@@ -59,6 +75,7 @@ export interface ExtensionOptionsMap {
   links: LinksExtensionOptions
   codeBlock: CodeBlockExtensionOptions
   taskList: TaskListExtensionOptions
+  images: ImageExtensionOptions
 }
 
 /**
