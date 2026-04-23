@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { RichEditor } from '@teamsparta/rich-editor'
+import type { ExtensionInput } from '@teamsparta/rich-editor'
 import '@teamsparta/rich-editor/styles.css'
-import { SAMPLE_HTML } from './samples'
-import { storage } from './storage'
+import { storage } from '../../shared/storage'
 
 const STATUS_TIMEOUT_MS = 3000
 
@@ -12,9 +12,21 @@ function nowHHMMSS(): string {
   return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`
 }
 
-export function App() {
-  const [html, setHtml] = useState<string>(SAMPLE_HTML)
-  const [onChangeHtml, setOnChangeHtml] = useState<string>(SAMPLE_HTML)
+export interface EditorPanelProps {
+  initialHtml: string
+  storageKey: string
+  extensions?: ExtensionInput[]
+  placeholder?: string
+}
+
+export function EditorPanel({
+  initialHtml,
+  storageKey,
+  extensions,
+  placeholder = '',
+}: EditorPanelProps) {
+  const [html, setHtml] = useState<string>(initialHtml)
+  const [onChangeHtml, setOnChangeHtml] = useState<string>(initialHtml)
   const [status, setStatus] = useState<string>('')
 
   useEffect(() => {
@@ -25,12 +37,12 @@ export function App() {
 
   const handleSave = () => {
     const payload = onChangeHtml || html
-    storage.save(payload)
+    storage.save(storageKey, payload)
     setStatus(`✓ 저장됨 ${nowHHMMSS()}`)
   }
 
   const handleLoad = () => {
-    const loaded = storage.load()
+    const loaded = storage.load(storageKey)
     if (loaded === null) {
       setStatus('✗ 저장된 내용 없음')
       return
@@ -40,18 +52,13 @@ export function App() {
   }
 
   const handleReset = () => {
-    storage.clear()
-    setHtml(SAMPLE_HTML)
+    storage.clear(storageKey)
+    setHtml(initialHtml)
     setStatus(`↺ 초기화 ${nowHHMMSS()}`)
   }
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <h1 className="text-2xl font-semibold mb-1">@teamsparta/rich-editor — Playground</h1>
-      <p className="text-sm text-zinc-500 mb-4">
-        Phase 11 — 최소 코어 + HTML round-trip 시연
-      </p>
-
+    <div>
       <div className="flex gap-2 items-center mb-4">
         <button
           type="button"
@@ -85,7 +92,8 @@ export function App() {
           <RichEditor
             initialHtml={html}
             onChangeHtml={setOnChangeHtml}
-            placeholder="내용을 입력하세요"
+            extensions={extensions}
+            placeholder={placeholder}
           />
         </section>
         <section>
