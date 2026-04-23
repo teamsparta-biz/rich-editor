@@ -190,3 +190,35 @@
   content: attr(data-placeholder);
   color: #d4d4d8;
 }
+
+/* tables */
+.rte-editor .ProseMirror table.rte-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  table-layout: fixed;
+}
+.rte-editor .ProseMirror .rte-table th,
+.rte-editor .ProseMirror .rte-table td {
+  border: 1px solid #d4d4d8;
+  padding: 0.5em 0.75em;
+  min-width: 60px;
+  vertical-align: top;
+  position: relative;
+  box-sizing: border-box;
+}
+.rte-editor .ProseMirror .rte-table th {
+  background: #f4f4f5;
+  font-weight: 600;
+  text-align: left;
+}
+.rte-editor .ProseMirror .rte-table p {
+  margin: 0;
+}
+.rte-editor .ProseMirror .rte-table .selectedCell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(59, 130, 246, 0.15);
+  pointer-events: none;
+}

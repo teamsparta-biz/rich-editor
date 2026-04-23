@@ -16,6 +16,7 @@ export type ExtensionKey =
   | 'codeBlock'
   | 'taskList'
   | 'images'
+  | 'tables'
 
 /**
  * 공개 옵션 타입.
@@ -65,6 +66,15 @@ export interface ImageExtensionOptions {
   maxSize?: number
 }
 
+export interface TablesExtensionOptions {
+  /** 셀 병합(mergeCells·splitCell) 명령 활성. default `true` */
+  allowMerge?: boolean
+  /** `insertTable` 기본 행 수. default `3` */
+  defaultRows?: number
+  /** `insertTable` 기본 열 수. default `3` */
+  defaultCols?: number
+}
+
 /**
  * 키별 옵션 매핑 — ExtensionSpec이 키에 따라 options 타입을 좁히는 근거.
  */
@@ -76,6 +86,7 @@ export interface ExtensionOptionsMap {
   codeBlock: CodeBlockExtensionOptions
   taskList: TaskListExtensionOptions
   images: ImageExtensionOptions
+  tables: TablesExtensionOptions
 }
 
 /**
