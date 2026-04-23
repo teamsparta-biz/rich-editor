@@ -3,6 +3,8 @@ import { App } from './App'
 import { BasicsPage } from '../pages/basics/page'
 import { TextPage } from '../pages/text/page'
 import { CodePage } from '../pages/code/page'
+import { ImagesPage } from '../pages/images/page'
+import { TablesPage } from '../pages/tables/page'
 
 export const router = createBrowserRouter([
   {
@@ -13,6 +15,8 @@ export const router = createBrowserRouter([
       { path: 'basics', element: <BasicsPage /> },
       { path: 'text', element: <TextPage /> },
       { path: 'code', element: <CodePage /> },
+      { path: 'images', element: <ImagesPage /> },
+      { path: 'tables', element: <TablesPage /> },
       {
         path: '*',
         element: (

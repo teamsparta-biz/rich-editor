@@ -29,6 +29,12 @@ export function App() {
             <NavLink to="/code" className={navLinkClass}>
               Code
             </NavLink>
+            <NavLink to="/images" className={navLinkClass}>
+              Images
+            </NavLink>
+            <NavLink to="/tables" className={navLinkClass}>
+              Tables
+            </NavLink>
           </nav>
         </div>
       </header>
