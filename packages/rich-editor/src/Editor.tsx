@@ -8,12 +8,22 @@ import type { CoreExtensionOptions, ExtensionInput, RichEditorProps } from './ty
  * `placeholder` prop이 주어지면 core 스펙의 options로 주입.
  * 사용자가 이미 `{ key: 'core', options: {...} }` 스펙을 전달했으면
  * 그 options를 존중하되 placeholder만 보충(덮어쓰지 않음).
+ *
+ * 입력 목록에 'core'가 없으면 맨 앞에 자동 주입한다. TipTap은 Document·
+ * Paragraph·Text 없이는 schema를 구성할 수 없으므로, 소비자가 확장 키만
+ * 나열해도 동작해야 한다 (예: extensions={['headings', 'lists']}).
  */
 function mergePlaceholder(
   inputs: ExtensionInput[] | undefined,
   placeholder: string,
 ): ExtensionInput[] {
-  const base = inputs && inputs.length > 0 ? inputs : (['core'] as ExtensionInput[])
+  const provided = inputs && inputs.length > 0 ? inputs : []
+  const hasCore = provided.some((item) =>
+    typeof item === 'string' ? item === 'core' : item.key === 'core',
+  )
+  const base: ExtensionInput[] = hasCore
+    ? provided
+    : [('core' as ExtensionInput), ...provided]
   if (!placeholder) return base
 
   return base.map((item): ExtensionInput => {
