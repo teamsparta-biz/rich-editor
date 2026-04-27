@@ -21,5 +21,5 @@ export const SAMPLE_HTML = [
   '</tr>',
   '</tbody>',
   '</table>',
-  '<p>편집: 셀 안에서 Tab으로 이동, Ctrl+Shift+방향키로 셀 선택 확장, 컨텍스트 메뉴 또는 <code>editor.chain().addColumnAfter().run()</code>로 조작.</p>',
+  '<p>편집: 셀 이동은 <kbd>Tab</kbd> / <kbd>Shift+Tab</kbd>. 행/열 추가·셀 병합·분리는 위쪽 "표 명령 toolbar" 버튼으로. 두 개 이상 셀 병합은 드래그로 셀 영역을 선택한 뒤 "셀 병합" 클릭.</p>',
 ].join('')
