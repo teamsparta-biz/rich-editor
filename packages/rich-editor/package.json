@@ -33,6 +33,7 @@
     "dev": "vite build --watch",
     "build": "vite build && tsup && node -e \"require('fs').copyFileSync('src/styles.css','dist/styles.css')\"",
     "typecheck": "tsc --noEmit",
+    "check:dist": "node scripts/check-dist.mjs",
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {

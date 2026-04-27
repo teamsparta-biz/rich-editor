@@ -10,7 +10,7 @@ export function linksExtensionFactory(
       openOnClick: options?.openOnClick ?? false,
       autolink: options?.autolink ?? true,
       defaultProtocol: options?.defaultProtocol ?? 'https',
-      HTMLAttributes: options?.HTMLAttributes,
+      HTMLAttributes: options?.HTMLAttributes ?? {},
     }),
   ]
 }

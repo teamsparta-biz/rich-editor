@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { RichEditor } from '@teamsparta/rich-editor'
-import type { ExtensionInput } from '@teamsparta/rich-editor'
+import type { Editor, ExtensionInput } from '@teamsparta/rich-editor'
 import '@teamsparta/rich-editor/styles.css'
 import { storage } from '../../shared/storage'
 
@@ -17,6 +17,14 @@ export interface EditorPanelProps {
   storageKey: string
   extensions?: ExtensionInput[]
   placeholder?: string
+  /** F 영역 검증용. RichEditor에 그대로 패스스루 */
+  readOnly?: boolean
+  /** F 영역 검증용. RichEditor에 그대로 패스스루 */
+  autofocus?: boolean
+  /** F 영역 검증용. RichEditor에 그대로 패스스루 */
+  className?: string
+  /** F 영역 검증용. RichEditor에 그대로 패스스루 (마운트 1회) */
+  onEditorReady?: (editor: Editor) => void
 }
 
 export function EditorPanel({
@@ -24,6 +32,10 @@ export function EditorPanel({
   storageKey,
   extensions,
   placeholder = '',
+  readOnly = false,
+  autofocus = false,
+  className,
+  onEditorReady,
 }: EditorPanelProps) {
   const [html, setHtml] = useState<string>(initialHtml)
   const [onChangeHtml, setOnChangeHtml] = useState<string>(initialHtml)
@@ -56,6 +68,10 @@ export function EditorPanel({
     setHtml(initialHtml)
     setStatus(`↺ 초기화 ${nowHHMMSS()}`)
   }
+
+  // autofocus·readOnly·placeholder 변경은 mount 시점 동작이라
+  // 토글 시 RichEditor를 의도적으로 재마운트한다 (F 영역 검증).
+  const editorKey = `${readOnly}-${autofocus}-${placeholder}`
 
   return (
     <div>
@@ -90,10 +106,15 @@ export function EditorPanel({
         <section>
           <h2 className="text-sm font-medium text-zinc-500 mb-2">편집기</h2>
           <RichEditor
+            key={editorKey}
             initialHtml={html}
             onChangeHtml={setOnChangeHtml}
             extensions={extensions}
             placeholder={placeholder}
+            readOnly={readOnly}
+            autofocus={autofocus}
+            className={className}
+            onEditorReady={onEditorReady}
           />
         </section>
         <section>
