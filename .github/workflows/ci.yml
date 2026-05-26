@@ -1,0 +1,24 @@
+name: ci
+
+# PR 게이트 — main 대상 모든 PR에서 build + test 강제.
+# release.yml의 publish 직전 게이트(check:dist + test)를 PR 단계에서 선행 확인하는 안전망.
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4 # version은 package.json packageManager(pnpm@9.15.0) 자동 감지
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm -r build
+      - run: pnpm -r test

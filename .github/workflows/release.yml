@@ -1,0 +1,47 @@
+name: release
+
+# main push 트리거. Changesets action이 두 모드로 동작한다.
+#  - changeset md가 남아 있으면: Version PR(버전 bump + CHANGELOG) 자동 생성
+#  - changeset md가 없으면(Version PR 머지 직후): publish step 실행
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false # 진행 중 publish는 취소하지 않음 (부분 publish 위험 회피)
+
+permissions:
+  contents: write # 버전 bump 커밋 + Version PR
+  pull-requests: write # Version PR 생성
+  packages: write # GitHub Packages publish (GITHUB_TOKEN 인증 근거)
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Changesets가 git history 필요
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          registry-url: https://npm.pkg.github.com
+          scope: '@teamsparta'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm -r build # E 회귀 테스트가 dist/ 의존
+      - run: pnpm -r test # B·E 회귀 게이트
+      - name: Create Release PR or Publish
+        uses: changesets/action@v1
+        with:
+          version: pnpm changeset version
+          publish: pnpm -C packages/rich-editor publish --no-git-checks --access restricted
+          commit: 'chore: version packages'
+          title: 'chore: version packages'
+        env:
+          # 같은 org repo이므로 자동 GITHUB_TOKEN으로 PR 생성·Packages publish 모두 가능.
+          # 별도 PAT(NPM_PUBLISH_TOKEN) 불필요 — 필요 시 NODE_AUTH_TOKEN만 PAT로 교체.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
