@@ -11,10 +11,14 @@
     "build": "pnpm -r build",
     "dev": "pnpm -r --parallel dev",
     "typecheck": "pnpm -r typecheck",
-    "test": "pnpm -r test"
+    "test": "pnpm -r test",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "changeset publish"
   },
   "devDependencies": {
-    "typescript": "^5.6.3",
-    "@types/node": "^20.14.0"
+    "@changesets/cli": "^2.31.0",
+    "@types/node": "^20.14.0",
+    "typescript": "^5.6.3"
   }
 }
