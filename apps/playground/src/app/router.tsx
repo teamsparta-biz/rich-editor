@@ -5,6 +5,7 @@ import { TextPage } from '../pages/text/page'
 import { CodePage } from '../pages/code/page'
 import { ImagesPage } from '../pages/images/page'
 import { TablesPage } from '../pages/tables/page'
+import { MarksPage } from '../pages/marks/page'
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
       { path: 'code', element: <CodePage /> },
       { path: 'images', element: <ImagesPage /> },
       { path: 'tables', element: <TablesPage /> },
+      { path: 'marks', element: <MarksPage /> },
       {
         path: '*',
         element: (

@@ -1,0 +1,16 @@
+export const SAMPLE_HTML = [
+  '<h2>인라인 마크 시연 (6종)</h2>',
+  '<p>강조는 <strong>볼드</strong>와 <em>이탤릭</em>으로 표현한다.</p>',
+  '<p>삭제선은 <s>이렇게 그어진다</s>. 인라인 코드는 <code>const greeting = "hi"</code> 형태로.</p>',
+  '<p><u>밑줄</u>과 <mark>형광펜 마커</mark>는 강조 표시에 활용된다.</p>',
+  '<h3>단축키 안내</h3>',
+  '<ul>',
+  '<li>볼드: <code>Ctrl+B</code> 또는 마크다운 <code>**텍스트**</code></li>',
+  '<li>이탤릭: <code>Ctrl+I</code> 또는 마크다운 <code>*텍스트*</code></li>',
+  '<li>스트라이크: <code>Ctrl+Shift+S</code> 또는 마크다운 <code>~~텍스트~~</code></li>',
+  '<li>인라인 코드: <code>Ctrl+E</code> 또는 마크다운 <code>`텍스트`</code></li>',
+  '<li>밑줄: <code>Ctrl+U</code></li>',
+  '<li>형광펜: <code>Ctrl+Shift+H</code></li>',
+  '</ul>',
+  '<p>아래 토글 체크박스로 마크별 ON/OFF, highlightColor로 마커 색상을 변경해보세요.</p>',
+].join('')

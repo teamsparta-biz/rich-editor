@@ -17,7 +17,7 @@ export function App() {
             @teamsparta/rich-editor — Playground
           </h1>
           <p className="text-sm text-zinc-500 mb-3">
-            Phase 12 — 기본 확장 팩 회귀 검증
+            Phase 14 — 9확장 회귀 검증 (marks 6종 포함)
           </p>
           <nav className="flex gap-2" aria-label="playground sections">
             <NavLink to="/basics" className={navLinkClass}>
@@ -34,6 +34,9 @@ export function App() {
             </NavLink>
             <NavLink to="/tables" className={navLinkClass}>
               Tables
+            </NavLink>
+            <NavLink to="/marks" className={navLinkClass}>
+              Marks
             </NavLink>
           </nav>
         </div>
