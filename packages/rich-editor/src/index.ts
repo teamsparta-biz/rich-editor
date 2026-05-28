@@ -17,4 +17,5 @@ export type {
   TaskListExtensionOptions,
   ImageExtensionOptions,
   TablesExtensionOptions,
+  MarksExtensionOptions,
 } from './types'
