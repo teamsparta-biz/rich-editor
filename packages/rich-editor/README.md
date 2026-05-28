@@ -13,9 +13,9 @@
 
 ## 상태
 
-**v0.3.0 (Phase 12 완료, 2026-04-24)** — 기본 확장 팩 **7종 완비**: `headings`·`lists`·`links`·`codeBlock`·`taskList`·`images`·`tables` + 기본 포함 `core`. pbl-edu 교안·프로젝트 차터·멘토링 로그 작성에 필요한 리치텍스트 기능을 모두 제공합니다. 공개 API 1차 고정 Decision에 따라 **0.x minor bump에서 비-브레이킹 추가만 허용**되며, 기존 키·props 시그니처는 불변입니다.
+**v0.5.0 (Phase 14 완료, 2026-05-29)** — 기본 확장 팩 **8종 + 인라인 마크 1키(6종)** 완비: `headings`·`lists`·`links`·`codeBlock`·`taskList`·`images`·`tables`·`marks` + 기본 포함 `core`. `marks`는 `Bold/Italic/Strike/inline Code/Underline/Highlight` 6종을 단일 키로 묶어 노출합니다. pbl-edu 교안·프로젝트 차터·멘토링 로그 작성에 필요한 본문 서식까지 모두 제공합니다. 공개 API 1차 고정 Decision에 따라 **0.x minor bump에서 비-브레이킹 추가만 허용**되며, 기존 키·props 시그니처는 불변입니다.
 
-차후: Phase 13에서 회귀 테스트 스위트(Vitest·Playwright) · publish 자동화(Changesets·GitHub Actions) · Vercel playground 배포 · 버전 1.0 승격 판단 예정.
+차후: AI 스트리밍 삽입 확장 · 외부 포맷 임포트(docx/노션 HTML/Markdown) · multicolor highlight · textColor/backgroundColor · sub/sup · 버전 1.0 승격 판단 예정.
 
 ## 설치
 
@@ -82,8 +82,22 @@ export function Editor() {
     },
     'codeBlock',
     'taskList',
+    'marks',
   ]}
 />
+```
+
+`marks`는 인라인 텍스트 서식 6종을 단일 키로 묶습니다. 기본 6종 모두 활성, `Ctrl+B/I/U/Shift+S/E` 단축키와 `**bold**` `*italic*` `~~strike~~` `` `code` `` 마크다운 입력 단축어가 자동 동작합니다.
+
+```tsx
+// 6종 모두 활성 (default)
+<RichEditor extensions={['marks']} />
+
+// 일부 비활성 (inline code / highlight OFF)
+<RichEditor extensions={[{ key: 'marks', options: { code: false, highlight: false } }]} />
+
+// highlightColor 변경 (브랜드 컬러 적용)
+<RichEditor extensions={[{ key: 'marks', options: { highlightColor: '#fde68a' } }]} />
 ```
 
 ## 공개 API
@@ -101,7 +115,7 @@ export function Editor() {
 | `className` | `string` | — | 외부 스타일 override. `rte-editor`와 함께 적용 |
 | `onEditorReady` | `(editor: Editor) => void` | — | TipTap editor 인스턴스 접근 (마운트 1회) |
 
-### 확장 키 카탈로그 (v0.3.0 기준 8종)
+### 확장 키 카탈로그 (v0.5.0 기준 9종)
 
 | 키 | 포함 기능 | 주요 옵션 |
 |----|----------|----------|
@@ -113,6 +127,7 @@ export function Editor() {
 | `taskList` | 체크박스 태스크 리스트 | `nestedTasks?: boolean` (default `true`) |
 | `images` | 드래그·붙여넣기·툴바 삽입 이미지 (figure+figcaption) | `imageUpload?: (file) => Promise<string>` (훅 미주입 시 삽입 거부) / `allowCaption?` / `allowPaste?` / `allowDrop?` / `acceptedTypes?` / `maxSize?` |
 | `tables` | 머리글 행 + 셀 병합 지원 표 | `allowMerge?: boolean` (default `true`) / `defaultRows?: number` (default `3`) / `defaultCols?: number` (default `3`) · `resizable`은 내부 고정 `false` |
+| `marks` | 인라인 마크 6종 (Bold/Italic/Strike/inline Code/Underline/Highlight) + 단축키·마크다운 입력 단축어 | `bold?`/`italic?`/`strike?`/`code?`/`underline?`/`highlight?: boolean` (전부 default `true`) / `highlightColor?: string` (default `'#fef08a'` 노랑) |
 
 각 키는 배열 요소로 `'headings'`처럼 문자열로 쓰거나 `{ key: 'headings', options: { ... } }` 스펙 객체로 쓸 수 있습니다. 동일 키를 여러 번 넣으면 뒤에 주입된 옵션이 적용됩니다.
 
@@ -124,7 +139,7 @@ export function Editor() {
 - 유틸: `htmlSerializer` (HTML ↔ editor 상태 수동 변환)
 - 타입:
   - `RichEditorProps` / `ExtensionKey` / `ExtensionSpec` / `ExtensionInput` / `ExtensionOptionsMap` / `Serializer` / `Editor` (TipTap re-export)
-  - 옵션 타입 8종: `CoreExtensionOptions`, `HeadingsExtensionOptions`, `ListsExtensionOptions`, `LinksExtensionOptions`, `CodeBlockExtensionOptions`, `TaskListExtensionOptions`, `ImageExtensionOptions`, `TablesExtensionOptions`
+  - 옵션 타입 9종: `CoreExtensionOptions`, `HeadingsExtensionOptions`, `ListsExtensionOptions`, `LinksExtensionOptions`, `CodeBlockExtensionOptions`, `TaskListExtensionOptions`, `ImageExtensionOptions`, `TablesExtensionOptions`, `MarksExtensionOptions`
 
 ### 서브패스
 

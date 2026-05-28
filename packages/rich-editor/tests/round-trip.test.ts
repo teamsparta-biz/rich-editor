@@ -2,7 +2,11 @@ import { describe, it, expect, afterEach } from 'vitest'
 import { Editor } from '@tiptap/core'
 import { resolveExtensions } from '../src/extensions/registry'
 import { htmlSerializer } from '../src/serialization/HtmlSerializer'
-import type { ExtensionInput, ImageExtensionOptions } from '../src/types'
+import type {
+  ExtensionInput,
+  ImageExtensionOptions,
+  MarksExtensionOptions,
+} from '../src/types'
 
 const createdEditors: Editor[] = []
 
@@ -30,7 +34,7 @@ afterEach(() => {
   }
 })
 
-describe('B 회귀 — 7개 확장 round-trip 보존', () => {
+describe('B 회귀 — 8개 확장 round-trip 보존', () => {
   it('headings: 6단계 round-trip', () => {
     // 기본 levels는 [1,2,3] — 6단계 검증을 위해 옵션으로 풀세트 활성
     const editor = createTestEditor([
@@ -209,5 +213,54 @@ describe('B 회귀 — 7개 확장 round-trip 보존', () => {
     expect(text).toContain('A1')
     expect(text).toContain('A2')
     expect(text).toContain('B1')
+  })
+
+  it('marks: 6종 HTML 보존 (default 활성)', () => {
+    const editor = createTestEditor(['marks'])
+    const input =
+      '<p><strong>볼드</strong> <em>이탤릭</em> <s>스트라이크</s> ' +
+      '<code>코드</code> <u>밑줄</u> <mark>형광</mark></p>'
+    const output = roundTrip(editor, input)
+    const doc = parseDom(output)
+
+    expect(doc.querySelector('strong'), '<strong> 누락').not.toBeNull()
+    expect(doc.querySelector('em'), '<em> 누락').not.toBeNull()
+    expect(doc.querySelector('s'), '<s> 누락').not.toBeNull()
+    expect(doc.querySelector('code'), '<code> 누락').not.toBeNull()
+    expect(doc.querySelector('u'), '<u> 누락').not.toBeNull()
+    expect(doc.querySelector('mark'), '<mark> 누락').not.toBeNull()
+
+    const text = doc.body.textContent ?? ''
+    expect(text).toContain('볼드')
+    expect(text).toContain('이탤릭')
+    expect(text).toContain('스트라이크')
+    expect(text).toContain('코드')
+    expect(text).toContain('밑줄')
+    expect(text).toContain('형광')
+  })
+
+  it('marks: 옵션으로 일부 비활성 시 미허용 마크는 스트립 (텍스트는 보존)', () => {
+    const marksOptions: MarksExtensionOptions = { code: false, highlight: false }
+    const editor = createTestEditor([{ key: 'marks', options: marksOptions }])
+    const input =
+      '<p><strong>볼드</strong> <em>이탤릭</em> <s>스트라이크</s> ' +
+      '<code>코드</code> <u>밑줄</u> <mark>형광</mark></p>'
+    const output = roundTrip(editor, input)
+    const doc = parseDom(output)
+
+    // 활성 4종은 보존
+    expect(doc.querySelector('strong'), '<strong> 누락').not.toBeNull()
+    expect(doc.querySelector('em'), '<em> 누락').not.toBeNull()
+    expect(doc.querySelector('s'), '<s> 누락').not.toBeNull()
+    expect(doc.querySelector('u'), '<u> 누락').not.toBeNull()
+
+    // 비활성 2종은 스트립
+    expect(doc.querySelector('code'), '<code>가 스트립되지 않음').toBeNull()
+    expect(doc.querySelector('mark'), '<mark>가 스트립되지 않음').toBeNull()
+
+    // 텍스트는 모두 보존
+    const text = doc.body.textContent ?? ''
+    expect(text).toContain('코드')
+    expect(text).toContain('형광')
   })
 })
