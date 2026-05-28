@@ -159,6 +159,27 @@
   cursor: pointer;
 }
 
+/* marks — 인라인 마크 6종 (Bold/Italic/Strike/inline Code/Underline/Highlight)
+ *
+ * <strong>/<em> 은 브라우저 기본 스타일 그대로.
+ * <code> 인라인은 기존 ":not(pre) > code" 셀렉터가 처리.
+ * <mark> 배경색은 CSS 변수로 노출하여 소비자가 override 가능.
+ */
+.rte-editor {
+  --rte-highlight-bg: #fef08a;
+}
+.rte-editor .ProseMirror mark {
+  background-color: var(--rte-highlight-bg);
+  padding: 0.1em 0.2em;
+  border-radius: 2px;
+}
+.rte-editor .ProseMirror u {
+  text-decoration: underline;
+}
+.rte-editor .ProseMirror s {
+  text-decoration: line-through;
+}
+
 /* blockquote (core 보강 — bulletList/listItem과 자연스럽게 공존) */
 .rte-editor .ProseMirror blockquote {
   border-left: 3px solid #d4d4d8;
