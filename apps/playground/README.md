@@ -1,6 +1,6 @@
 # playground
 
-> `@teamsparta/rich-editor`의 고도화·회귀 테스트·시연용 Vite + React 앱.
+> `@teamsparta-biz/rich-editor`의 고도화·회귀 테스트·시연용 Vite + React 앱.
 
 ## 참조
 
@@ -15,7 +15,7 @@
 
 ## 소비 방식
 
-- `package.json`의 dependency를 `"@teamsparta/rich-editor": "workspace:*"`로 둔다 → pnpm workspace가 소스 참조로 연결
+- `package.json`의 dependency를 `"@teamsparta-biz/rich-editor": "workspace:*"`로 둔다 → pnpm workspace가 소스 참조로 연결
 - 패키지 변경 즉시 playground에 반영됨 (publish/install 사이클 불필요)
 
 ## 배포

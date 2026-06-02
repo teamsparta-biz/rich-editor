@@ -20,7 +20,7 @@ importers:
 
   apps/playground:
     dependencies:
-      '@teamsparta/rich-editor':
+      '@teamsparta-biz/rich-editor':
         specifier: workspace:*
         version: link:../../packages/rich-editor
       '@tiptap/core':

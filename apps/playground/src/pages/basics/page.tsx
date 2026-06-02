@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { Editor } from '@teamsparta/rich-editor'
+import type { Editor } from '@teamsparta-biz/rich-editor'
 import { EditorPanel } from '../../widgets/editor-panel'
 import { SAMPLE_HTML } from './samples'
 

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import type { ExtensionInput, MarksExtensionOptions } from '@teamsparta/rich-editor'
+import type { ExtensionInput, MarksExtensionOptions } from '@teamsparta-biz/rich-editor'
 import { EditorPanel } from '../../widgets/editor-panel'
 import { SAMPLE_HTML } from './samples'
 

@@ -18,7 +18,7 @@ export function codeBlockExtensionFactory(
     for (const lang of options.languages) {
       if (!available.has(lang) && import.meta.env?.DEV) {
         console.warn(
-          `[@teamsparta/rich-editor] codeBlock: unknown language "${lang}" — skipped.`,
+          `[@teamsparta-biz/rich-editor] codeBlock: unknown language "${lang}" — skipped.`,
         )
       }
     }

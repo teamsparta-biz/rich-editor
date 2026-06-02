@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { RichEditor } from '@teamsparta/rich-editor'
-import type { Editor, ExtensionInput } from '@teamsparta/rich-editor'
-import '@teamsparta/rich-editor/styles.css'
+import { RichEditor } from '@teamsparta-biz/rich-editor'
+import type { Editor, ExtensionInput } from '@teamsparta-biz/rich-editor'
+import '@teamsparta-biz/rich-editor/styles.css'
 import { storage } from '../../shared/storage'
 
 const STATUS_TIMEOUT_MS = 3000

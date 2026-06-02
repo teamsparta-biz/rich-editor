@@ -1,6 +1,6 @@
 # 릴리즈 인프라 셋업 가이드
 
-`@teamsparta/rich-editor`의 CI / 자동 publish 파이프라인 (`ci.yml` · `release.yml`)을 동작시키기 위한 저장소 측 설정.
+`@teamsparta-biz/rich-editor`의 CI / 자동 publish 파이프라인 (`ci.yml` · `release.yml`)을 동작시키기 위한 저장소 측 설정.
 
 ## 1. Actions 권한 (필수)
 
@@ -64,4 +64,4 @@
 
 ### 사후 확인
 - GitHub Packages 웹 UI에 새 버전 표시
-- `pnpm view @teamsparta/rich-editor --registry https://npm.pkg.github.com versions`
+- `pnpm view @teamsparta-biz/rich-editor --registry https://npm.pkg.github.com versions`

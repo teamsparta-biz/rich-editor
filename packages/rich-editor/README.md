@@ -1,4 +1,4 @@
-# @teamsparta/rich-editor
+# @teamsparta-biz/rich-editor
 
 > TipTap v2 기반 팀스파르타 공용 리치텍스트 에디터 React 라이브러리.
 
@@ -29,7 +29,7 @@
 `GITHUB_TOKEN`에는 `read:packages` 권한의 PAT을 환경변수로 주입. 설치:
 
 ```bash
-pnpm add @teamsparta/rich-editor
+pnpm add @teamsparta-biz/rich-editor
 ```
 
 peer 5종은 소비자 프로젝트에 이미 설치돼 있어야 합니다:
@@ -42,8 +42,8 @@ pnpm add react@^19 react-dom@^19 @tiptap/core@^2 @tiptap/react@^2 tailwindcss@^4
 
 ```tsx
 import { useState } from 'react'
-import { RichEditor } from '@teamsparta/rich-editor'
-import '@teamsparta/rich-editor/styles.css'
+import { RichEditor } from '@teamsparta-biz/rich-editor'
+import '@teamsparta-biz/rich-editor/styles.css'
 
 export function Editor() {
   const [html, setHtml] = useState('<p>안녕하세요.</p>')
