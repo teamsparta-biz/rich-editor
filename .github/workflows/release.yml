@@ -31,9 +31,6 @@ jobs:
           cache: pnpm
           registry-url: https://npm.pkg.github.com
           scope: '@teamsparta'
-      # node20 동봉 npm 10.8.2는 `pnpm publish` 위임 시 인자(--git-checks 누수)를 거부해 EUSAGE로 실패한다.
-      # 로컬 검증 결과 npm 11에선 동일 명령이 정상 동작 → publish 안정 버전으로 고정 (task 14-50, v0.5.0 게시 복구).
-      - run: npm install -g npm@11
       - run: pnpm install --frozen-lockfile
       - run: pnpm -r build # E 회귀 테스트가 dist/ 의존
       - run: pnpm -r test # B·E 회귀 게이트
@@ -41,7 +38,9 @@ jobs:
         uses: changesets/action@v1
         with:
           version: pnpm changeset version
-          publish: pnpm -C packages/rich-editor publish --no-git-checks --access restricted
+          # `pnpm -C <dir> publish`는 pnpm 9.15에서 npm publish에 잘못된 package-spec을 넘겨 EUSAGE로 실패(로컬 재현 확인).
+          # changeset publish는 패키지별 npm publish를 직접 호출하며 access는 .changeset/config.json(restricted) 적용.
+          publish: pnpm changeset publish
           commit: 'chore: version packages'
           title: 'chore: version packages'
         env:
