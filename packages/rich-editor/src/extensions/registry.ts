@@ -50,7 +50,7 @@ export function resolveExtensions(
     if (!entry) {
       if (import.meta.env?.DEV) {
         console.warn(
-          `[@teamsparta/rich-editor] Unknown extension key: "${String(spec.key)}". Skipped.`,
+          `[@teamsparta-biz/rich-editor] Unknown extension key: "${String(spec.key)}". Skipped.`,
         )
       }
       return []

@@ -1,4 +1,4 @@
-# @teamsparta/rich-editor
+# @teamsparta-biz/rich-editor
 
 ## 0.5.0
 

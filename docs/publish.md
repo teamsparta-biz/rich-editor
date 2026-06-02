@@ -1,4 +1,4 @@
-# Publish 가이드 — @teamsparta/rich-editor
+# Publish 가이드 — @teamsparta-biz/rich-editor
 
 > GitHub Packages에 수동 publish하고, 외부 환경에서 설치·import를 검증하는 절차.
 > Phase 11은 1회성 수동 publish. Changesets·GitHub Actions 자동화는 Phase 13 예정.
@@ -83,7 +83,7 @@ pnpm -C packages/rich-editor publish --no-git-checks --access restricted
 
 성공 출력 예:
 ```
-+ @teamsparta/rich-editor@0.1.0
++ @teamsparta-biz/rich-editor@0.1.0
 ```
 
 ### 2-3. 게시 확인
@@ -91,7 +91,7 @@ pnpm -C packages/rich-editor publish --no-git-checks --access restricted
 - Web UI: https://github.com/teamsparta-biz/rich-editor/pkgs/npm/rich-editor
 - CLI:
   ```bash
-  pnpm view @teamsparta/rich-editor --registry https://npm.pkg.github.com
+  pnpm view @teamsparta-biz/rich-editor --registry https://npm.pkg.github.com
   ```
 - `0.1.0`이 표시되면 성공
 
@@ -130,13 +130,13 @@ pnpm init
 
 ```bash
 pnpm add react@^19 react-dom@^19 @tiptap/core@^2 @tiptap/react@^2 tailwindcss@^4
-pnpm add @teamsparta/rich-editor@0.1.0
+pnpm add @teamsparta-biz/rich-editor@0.1.0
 ```
 
 ### 3-3. dist 구조 확인
 
 ```bash
-ls node_modules/@teamsparta/rich-editor/dist/
+ls node_modules/@teamsparta-biz/rich-editor/dist/
 # → index.mjs, index.cjs, index.d.ts, index.cjs.map, index.mjs.map, styles.css
 ```
 
@@ -144,8 +144,8 @@ ls node_modules/@teamsparta/rich-editor/dist/
 
 `test.tsx` 작성:
 ```tsx
-import { RichEditor, type RichEditorProps } from '@teamsparta/rich-editor'
-import '@teamsparta/rich-editor/styles.css'
+import { RichEditor, type RichEditorProps } from '@teamsparta-biz/rich-editor'
+import '@teamsparta-biz/rich-editor/styles.css'
 
 export const Demo = (props: RichEditorProps) => <RichEditor {...props} />
 ```
@@ -171,4 +171,4 @@ rm -rf _verify-rich-editor
 
 - **Changesets** 도입 — 버전 범프·CHANGELOG 자동화
 - **GitHub Actions** 도입 — main merge 시 자동 publish
-- `@teamsparta/rich-editor` visibility를 public으로 승격할지 별도 검토
+- `@teamsparta-biz/rich-editor` visibility를 public으로 승격할지 별도 검토

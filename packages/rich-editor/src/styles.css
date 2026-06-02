@@ -1,8 +1,8 @@
 /**
- * @teamsparta/rich-editor — 최소 CSS
+ * @teamsparta-biz/rich-editor — 최소 CSS
  *
  * Tailwind 없이도 동작하는 기본 UX(border·focus·placeholder)를 제공한다.
- * 소비자는 `import '@teamsparta/rich-editor/styles.css'`로 이 파일을 가져오고,
+ * 소비자는 `import '@teamsparta-biz/rich-editor/styles.css'`로 이 파일을 가져오고,
  * 필요 시 Tailwind 또는 자체 CSS로 override한다.
  *
  * 규칙: 내부 구현은 Tailwind 유틸 클래스에 의존하지 않는다 (rte-* 네임스페이스만).

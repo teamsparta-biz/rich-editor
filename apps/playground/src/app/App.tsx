@@ -14,7 +14,7 @@ export function App() {
       <header className="border-b border-zinc-200">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <h1 className="text-2xl font-semibold mb-1">
-            @teamsparta/rich-editor — Playground
+            @teamsparta-biz/rich-editor — Playground
           </h1>
           <p className="text-sm text-zinc-500 mb-3">
             Phase 14 — 9확장 회귀 검증 (marks 6종 포함)

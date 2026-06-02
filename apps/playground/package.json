@@ -2,7 +2,7 @@
   "name": "playground",
   "version": "0.0.0",
   "private": true,
-  "description": "Demo and regression playground for @teamsparta/rich-editor",
+  "description": "Demo and regression playground for @teamsparta-biz/rich-editor",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,7 +14,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.0.0",
-    "@teamsparta/rich-editor": "workspace:*",
+    "@teamsparta-biz/rich-editor": "workspace:*",
     "@tiptap/core": "^2.10.3",
     "@tiptap/react": "^2.10.3",
     "tailwindcss": "^4.0.0"

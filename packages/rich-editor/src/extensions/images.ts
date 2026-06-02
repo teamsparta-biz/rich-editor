@@ -39,7 +39,7 @@ const Figcaption = Node.create({
 
 function devWarn(msg: string): void {
   if (import.meta.env?.DEV) {
-    console.warn(`[@teamsparta/rich-editor] ${msg}`)
+    console.warn(`[@teamsparta-biz/rich-editor] ${msg}`)
   }
 }
 

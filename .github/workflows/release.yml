@@ -30,7 +30,7 @@ jobs:
           node-version: 20
           cache: pnpm
           registry-url: https://npm.pkg.github.com
-          scope: '@teamsparta'
+          scope: '@teamsparta-biz'
       - run: pnpm install --frozen-lockfile
       - run: pnpm -r build # E 회귀 테스트가 dist/ 의존
       - run: pnpm -r test # B·E 회귀 게이트
