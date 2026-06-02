@@ -7,6 +7,7 @@ export type { Editor }
  * Phase 11: 'core'
  * Phase 12 B1: + 'headings' | 'lists' | 'links' | 'codeBlock' | 'taskList' (비-브레이킹 추가)
  * Phase 12 B2: + 'images' | 'tables' (후속)
+ * Phase 14: + 'marks' (인라인 마크 6종 Bold/Italic/Strike/inline Code/Underline/Highlight)
  */
 export type ExtensionKey =
   | 'core'
@@ -17,6 +18,7 @@ export type ExtensionKey =
   | 'taskList'
   | 'images'
   | 'tables'
+  | 'marks'
 
 /**
  * 공개 옵션 타입.
@@ -75,6 +77,26 @@ export interface TablesExtensionOptions {
   defaultCols?: number
 }
 
+export interface MarksExtensionOptions {
+  /** Bold 마크 활성. default `true` */
+  bold?: boolean
+  /** Italic 마크 활성. default `true` */
+  italic?: boolean
+  /** Strike 마크 활성. default `true` */
+  strike?: boolean
+  /** inline Code 마크 활성. default `true` */
+  code?: boolean
+  /** Underline 마크 활성. default `true` */
+  underline?: boolean
+  /** Highlight 마크 활성. default `true` */
+  highlight?: boolean
+  /**
+   * Highlight 마커 색상(CSS 값). default `'#fef08a'` (노랑).
+   * multicolor=false 정책 — 단일 색상만 적용.
+   */
+  highlightColor?: string
+}
+
 /**
  * 키별 옵션 매핑 — ExtensionSpec이 키에 따라 options 타입을 좁히는 근거.
  */
@@ -87,6 +109,7 @@ export interface ExtensionOptionsMap {
   taskList: TaskListExtensionOptions
   images: ImageExtensionOptions
   tables: TablesExtensionOptions
+  marks: MarksExtensionOptions
 }
 
 /**
