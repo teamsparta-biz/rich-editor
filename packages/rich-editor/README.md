@@ -13,20 +13,13 @@
 
 ## 상태
 
-**v0.5.0 (Phase 14 완료, 2026-05-29)** — 기본 확장 팩 **8종 + 인라인 마크 1키(6종)** 완비: `headings`·`lists`·`links`·`codeBlock`·`taskList`·`images`·`tables`·`marks` + 기본 포함 `core`. `marks`는 `Bold/Italic/Strike/inline Code/Underline/Highlight` 6종을 단일 키로 묶어 노출합니다. pbl-edu 교안·프로젝트 차터·멘토링 로그 작성에 필요한 본문 서식까지 모두 제공합니다. 공개 API 1차 고정 Decision에 따라 **0.x minor bump에서 비-브레이킹 추가만 허용**되며, 기존 키·props 시그니처는 불변입니다.
+**v0.5.0 (Phase 14 완료, 2026-05-29)** — 기본 확장 팩 **8종 + 인라인 마크 1키(6종)** 완비: `headings`·`lists`·`links`·`codeBlock`·`taskList`·`images`·`tables`·`marks` + 기본 포함 `core`. `marks`는 `Bold/Italic/Strike/inline Code/Underline/Highlight` 6종을 단일 키로 묶어 노출합니다. 교안·콘텐츠·운영 로그 작성에 필요한 본문 서식까지 모두 제공합니다. 공개 API 1차 고정 Decision에 따라 **0.x minor bump에서 비-브레이킹 추가만 허용**되며, 기존 키·props 시그니처는 불변입니다.
 
 차후: AI 스트리밍 삽입 확장 · 외부 포맷 임포트(docx/노션 HTML/Markdown) · multicolor highlight · textColor/backgroundColor · sub/sup · 버전 1.0 승격 판단 예정.
 
 ## 설치
 
-`.npmrc` 설정 (프로젝트 루트):
-
-```
-@teamsparta:registry=https://npm.pkg.github.com/
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
-```
-
-`GITHUB_TOKEN`에는 `read:packages` 권한의 PAT을 환경변수로 주입. 설치:
+공개 npm 레지스트리(npmjs.com)에 게시되어 별도 레지스트리 설정·인증 없이 설치됩니다.
 
 ```bash
 pnpm add @teamsparta-biz/rich-editor
@@ -157,14 +150,13 @@ export function Editor() {
 - 회귀 테스트 스위트 (Vitest · Playwright)
 - 버전 1.0 승격 판단 (공개 API 시그니처 확정 기준)
 
-## 소비자
+## 사용처
 
-- [pbl-edu](https://github.com/teamsparta-biz/pbl-edu) — 1차 타겟 (교안·프로젝트 차터·멘토링 로그)
-- instructor-scheduler — 차후 `BlockEditor` 교체 후보
+팀스파르타 내부 서비스 여러 곳에서 교안·콘텐츠 저작 및 운영 도구의 본문 편집기로 사용됩니다.
 
 ## 빌드·배포
 
 - 빌드: Vite library mode(ESM+CJS) + tsup(`.d.ts`) + 최소 CSS 복사
-- 배포: GitHub Packages (private) — `https://npm.pkg.github.com`
+- 배포: npmjs (public) — `https://registry.npmjs.org`
 - Phase 11은 **수동 publish 1회**. Changesets·GitHub Actions 자동화는 Phase 13
 - 세부 절차는 [../../docs/publish.md](../../docs/publish.md) 참조

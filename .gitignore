@@ -12,7 +12,7 @@ build/
 .env.local
 .env.*.local
 
-# npm auth (GitHub Packages PAT 보호)
+# npm auth (publish 토큰 보호)
 .npmrc
 
 # Logs
@@ -40,3 +40,6 @@ coverage/
 # Playwright
 playwright-report/
 test-results/
+
+# 내부 검증 산출물 (public repo 미포함)
+output/
