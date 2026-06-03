@@ -1,6 +1,6 @@
 # 릴리즈 인프라 셋업 가이드
 
-`@teamsparta-biz/rich-editor`의 CI / 자동 publish 파이프라인 (`ci.yml` · `release.yml`)을 동작시키기 위한 저장소 측 설정. 패키지는 **공개 npm 레지스트리(npmjs.com)** 에 게시됩니다.
+`@teamsparta-biz/rich-editor`의 CI / 자동 publish 파이프라인 (`ci.yml` · `release.yml`)을 동작시키기 위한 저장소 측 설정.
 
 ## 1. Actions 권한 (필수)
 
@@ -11,22 +11,25 @@
 
 → Changesets action이 버전 bump 커밋과 Version PR을 만들 수 있게 해준다. 둘 중 하나라도 빠지면 Version PR 자동 생성이 실패한다.
 
-## 2. publish 인증 — npm 토큰 (필수)
+## 2. publish 인증 — 두 방식
 
-npmjs.com 게시는 자동 `GITHUB_TOKEN`으로 불가능하므로 **npm Access Token을 저장소 secret으로 등록**한다.
+### (A) GITHUB_TOKEN (현재 채택, 추가 설정 없음)
 
-1. npm 토큰 발급 — https://www.npmjs.com/settings/~/tokens
-   - Granular Access Token(권장) 또는 Automation 토큰
-   - 권한: `@teamsparta-biz` 스코프에 **Read and write**
-   - 전제: npm org `teamsparta-biz` 가 존재하고 토큰 소유 계정이 멤버일 것
-2. `Settings → Secrets and variables → Actions → New repository secret`
-   - Name: `NPM_TOKEN`
-   - Value: 발급한 npm 토큰
-3. `release.yml`이 `NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}`, `registry-url: https://registry.npmjs.org`로 이 토큰을 사용한다.
+같은 org(`teamsparta-biz`) 저장소이므로 워크플로우의 자동 `GITHUB_TOKEN`만으로 GitHub Packages publish가 가능하다. `release.yml`의 `permissions: packages: write`가 그 근거다. **별도 secret 등록 불필요.**
 
 전제:
-- `packages/rich-editor/package.json`의 `publishConfig.access`가 `public` ✅
-- `.changeset/config.json`의 `access`가 `public` ✅
+- `packages/rich-editor/package.json`의 `repository.url`이 이 저장소를 정확히 가리킬 것 (현재 `git+https://github.com/teamsparta-biz/rich-editor.git` ✅)
+- `publishConfig.registry`가 `https://npm.pkg.github.com` ✅
+
+### (B) PAT (`NPM_PUBLISH_TOKEN`) — 필요 시 전환
+
+조직 정책상 `GITHUB_TOKEN`으로 publish가 막히면 PAT로 교체한다.
+
+1. PAT 발급 — scopes: `write:packages`, `read:packages`
+2. `Settings → Secrets and variables → Actions → New repository secret`
+   - Name: `NPM_PUBLISH_TOKEN`
+   - Value: 발급한 PAT
+3. `release.yml`의 `NODE_AUTH_TOKEN`을 `${{ secrets.NPM_PUBLISH_TOKEN }}`으로 변경
 
 ## 3. Branch protection (선택, 첫 시연 후 권장)
 
@@ -56,9 +59,9 @@ npmjs.com 게시는 자동 `GITHUB_TOKEN`으로 불가능하므로 **npm Access 
               changeset md 없음 ─▶ publish step 실행
                   (prepublishOnly: build + check:dist + test 게이트)
                                         │
-                    pnpm publish ─▶ npmjs 게시 (public)
+                    pnpm publish ─▶ GitHub Packages 게시
 ```
 
 ### 사후 확인
-- npmjs 패키지 페이지에 새 버전 표시: https://www.npmjs.com/package/@teamsparta-biz/rich-editor
-- `npm view @teamsparta-biz/rich-editor versions`
+- GitHub Packages 웹 UI에 새 버전 표시
+- `pnpm view @teamsparta-biz/rich-editor --registry https://npm.pkg.github.com versions`

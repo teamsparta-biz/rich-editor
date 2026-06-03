@@ -19,7 +19,14 @@
 
 ## 설치
 
-공개 npm 레지스트리(npmjs.com)에 게시되어 별도 레지스트리 설정·인증 없이 설치됩니다.
+`.npmrc` 설정 (프로젝트 루트):
+
+```
+@teamsparta-biz:registry=https://npm.pkg.github.com/
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+`GITHUB_TOKEN`에는 `read:packages` 권한의 PAT을 환경변수로 주입. 설치:
 
 ```bash
 pnpm add @teamsparta-biz/rich-editor
@@ -157,6 +164,6 @@ export function Editor() {
 ## 빌드·배포
 
 - 빌드: Vite library mode(ESM+CJS) + tsup(`.d.ts`) + 최소 CSS 복사
-- 배포: npmjs (public) — `https://registry.npmjs.org`
+- 배포: GitHub Packages — `https://npm.pkg.github.com`
 - Phase 11은 **수동 publish 1회**. Changesets·GitHub Actions 자동화는 Phase 13
 - 세부 절차는 [../../docs/publish.md](../../docs/publish.md) 참조

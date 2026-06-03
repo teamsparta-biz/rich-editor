@@ -15,6 +15,7 @@ concurrency:
 permissions:
   contents: write # 버전 bump 커밋 + Version PR
   pull-requests: write # Version PR 생성
+  packages: write # GitHub Packages publish (GITHUB_TOKEN 인증 근거)
 
 jobs:
   release:
@@ -28,7 +29,7 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-          registry-url: https://registry.npmjs.org
+          registry-url: https://npm.pkg.github.com
           scope: '@teamsparta-biz'
       - run: pnpm install --frozen-lockfile
       - run: pnpm -r build # E 회귀 테스트가 dist/ 의존
@@ -38,11 +39,12 @@ jobs:
         with:
           version: pnpm changeset version
           # `pnpm -C <dir> publish`는 pnpm 9.15에서 npm publish에 잘못된 package-spec을 넘겨 EUSAGE로 실패(로컬 재현 확인).
-          # changeset publish는 패키지별 npm publish를 직접 호출하며 access는 .changeset/config.json(public) 적용.
+          # changeset publish는 패키지별 npm publish를 직접 호출하며 access는 .changeset/config.json(restricted) 적용.
           publish: pnpm changeset publish
           commit: 'chore: version packages'
           title: 'chore: version packages'
         env:
-          # PR 생성·커밋은 자동 GITHUB_TOKEN, npmjs publish는 저장소 secret NPM_TOKEN 사용.
+          # 같은 org repo이므로 자동 GITHUB_TOKEN으로 PR 생성·Packages publish 모두 가능.
+          # 별도 PAT(NPM_PUBLISH_TOKEN) 불필요 — 필요 시 NODE_AUTH_TOKEN만 PAT로 교체.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
