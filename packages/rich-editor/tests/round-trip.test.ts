@@ -124,9 +124,9 @@ describe('B 회귀 — 8개 확장 round-trip 보존', () => {
     expect(text).toContain('\n')
   })
 
-  it('taskList: 항목 + 2단계 중첩 (data-checked attribute 존재 + 텍스트 보존)', () => {
+  it('taskList: 항목 + 2단계 중첩 (data-checked 값 ON/OFF round-trip 보존 + 텍스트)', () => {
     const editor = createTestEditor(['taskList'])
-    // 단순 형태로 입력: TipTap TaskItem의 parseHTML은 li[data-checked]만 본다 (label/input은 renderHTML 산출).
+    // 저장 HTML 형태(data-type 없이 data-checked만)로 입력 — RoundTripTaskItem이 li[data-checked]를 매칭해 checked 보존.
     const input =
       '<ul data-type="taskList">' +
       '<li data-checked="true"><p>완료 항목</p></li>' +
@@ -142,9 +142,13 @@ describe('B 회귀 — 8개 확장 round-trip 보존', () => {
     const taskLists = doc.querySelectorAll('ul[data-type="taskList"]')
     expect(taskLists.length).toBe(2) // 외부 + 중첩
 
-    // data-checked attribute 자체가 항목별로 출력됨 (true/false 보존은 별도 결함 — deviations/133-10_taskItem-checked-roundtrip.md 참조)
-    const items = doc.querySelectorAll('li[data-checked]')
+    // data-checked 값 round-trip 보존: ON 1개(완료) + OFF 2개(진행·하위 중첩). 133-10 fix로 ON 보존 복원.
+    const items = Array.from(doc.querySelectorAll('li[data-checked]'))
     expect(items.length).toBe(3)
+    const checkedOn = items.filter((li) => li.getAttribute('data-checked') === 'true')
+    expect(checkedOn.length, 'ON 상태(data-checked=true) round-trip 손실').toBe(1)
+    expect(checkedOn[0]?.textContent).toContain('완료 항목')
+    expect(items.filter((li) => li.getAttribute('data-checked') === 'false').length).toBe(2)
 
     // 텍스트 보존
     const text = doc.body.textContent ?? ''
