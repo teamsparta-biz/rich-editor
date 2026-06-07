@@ -8,6 +8,7 @@ export type { Editor }
  * Phase 12 B1: + 'headings' | 'lists' | 'links' | 'codeBlock' | 'taskList' (비-브레이킹 추가)
  * Phase 12 B2: + 'images' | 'tables' (후속)
  * Phase 14: + 'marks' (인라인 마크 6종 Bold/Italic/Strike/inline Code/Underline/Highlight)
+ * Phase(charter): + 'comment' (인라인 앵커 마크 — 협업 코멘트, marks 번들과 분리)
  */
 export type ExtensionKey =
   | 'core'
@@ -19,6 +20,7 @@ export type ExtensionKey =
   | 'images'
   | 'tables'
   | 'marks'
+  | 'comment'
 
 /**
  * 공개 옵션 타입.
@@ -98,6 +100,26 @@ export interface MarksExtensionOptions {
 }
 
 /**
+ * comment 확장 옵션.
+ * 코멘트 기능 책임 경계(Decision 2026-05-29): 에디터는 앵커링·마킹·콜백만 제공,
+ * 본체 데이터·UI·권한은 소비자 책임.
+ */
+export interface CommentExtensionOptions {
+  /** comment span에 추가할 HTML 속성(className override 등). */
+  HTMLAttributes?: Record<string, unknown>
+  /**
+   * @internal RichEditor가 주입한다. comment 마크 클릭 시 commentId 콜백.
+   * 소비자는 `RichEditorProps.onCommentClick`을 사용한다.
+   */
+  onCommentClick?: (commentId: string) => void
+  /**
+   * @internal RichEditor가 주입한다. 활성 코멘트 강조용 현재 activeCommentId getter.
+   * 소비자는 `RichEditorProps.activeCommentId`를 사용한다.
+   */
+  getActiveCommentId?: () => string | null | undefined
+}
+
+/**
  * 키별 옵션 매핑 — ExtensionSpec이 키에 따라 options 타입을 좁히는 근거.
  */
 export interface ExtensionOptionsMap {
@@ -110,6 +132,7 @@ export interface ExtensionOptionsMap {
   images: ImageExtensionOptions
   tables: TablesExtensionOptions
   marks: MarksExtensionOptions
+  comment: CommentExtensionOptions
 }
 
 /**
@@ -158,4 +181,10 @@ export interface RichEditorProps {
   className?: string
   /** editor 인스턴스 접근 콜백 (마운트 시 1회) */
   onEditorReady?: (editor: Editor) => void
+  /** comment 마크 클릭 시 해당 commentId 전달 (extensions에 'comment' 포함 시 동작) */
+  onCommentClick?: (commentId: string) => void
+  /** 비어있지 않은 선택 영역 변경 시 범위 전달 — 코멘트 작성 트리거 (extensions에 'comment' 포함 시) */
+  onSelectionForComment?: (range: { from: number; to: number }) => void
+  /** 강조할 활성 코멘트 id. 일치하는 commentId 마크에 rte-comment-active 데코 적용 */
+  activeCommentId?: string | null
 }

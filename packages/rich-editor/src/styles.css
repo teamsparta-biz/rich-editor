@@ -243,3 +243,21 @@
   background: rgba(59, 130, 246, 0.15);
   pointer-events: none;
 }
+
+/* comment — 인라인 앵커 마크 (charter 협업 코멘트)
+ * 배경/활성/테두리색을 CSS 변수로 노출해 소비자가 디자인 토큰으로 override 가능
+ * (코멘트 책임 경계 Decision 2026-05-29: 시각 hook은 CSS 변수).
+ */
+.rte-editor {
+  --rte-comment-bg: rgba(250, 204, 21, 0.22);
+  --rte-comment-active-bg: rgba(250, 204, 21, 0.5);
+  --rte-comment-border: #facc15;
+}
+.rte-editor .ProseMirror .rte-comment {
+  background-color: var(--rte-comment-bg);
+  border-bottom: 2px solid var(--rte-comment-border);
+  cursor: pointer;
+}
+.rte-editor .ProseMirror .rte-comment-active {
+  background-color: var(--rte-comment-active-bg);
+}

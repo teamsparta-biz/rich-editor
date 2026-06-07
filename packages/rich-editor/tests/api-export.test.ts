@@ -19,6 +19,7 @@ const OPTION_INTERFACES = [
   'ImageExtensionOptions',
   'TablesExtensionOptions',
   'MarksExtensionOptions',
+  'CommentExtensionOptions',
 ] as const
 
 const CORE_TYPES = [
@@ -47,11 +48,11 @@ describe('E 회귀 — 공개 API export 라인 (dist/index.d.ts)', () => {
     expect(existsSync(DTS_PATH), `dist/index.d.ts 없음 — pnpm build를 먼저 실행하세요`).toBe(true)
   })
 
-  it('옵션 인터페이스 9종 + 핵심 타입 7종 + 값 export 2종 (총 18개) 모두 검출', () => {
+  it('옵션 인터페이스 10종 + 핵심 타입 7종 + 값 export 2종 (총 19개) 모두 검출', () => {
     const content = readFileSync(DTS_PATH, 'utf8')
     const missing: string[] = []
 
-    // 옵션 인터페이스 9종 — interface 정의 + export 포함
+    // 옵션 인터페이스 10종 — interface 정의 + export 포함
     for (const id of OPTION_INTERFACES) {
       const definedRe = new RegExp(String.raw`\binterface\s+${id}\b`)
       if (!definedRe.test(content)) {
