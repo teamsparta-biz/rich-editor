@@ -34,7 +34,7 @@ afterEach(() => {
   }
 })
 
-describe('B 회귀 — 8개 확장 round-trip 보존', () => {
+describe('B 회귀 — 9개 확장 round-trip 보존', () => {
   it('headings: 6단계 round-trip', () => {
     // 기본 levels는 [1,2,3] — 6단계 검증을 위해 옵션으로 풀세트 활성
     const editor = createTestEditor([
@@ -266,5 +266,21 @@ describe('B 회귀 — 8개 확장 round-trip 보존', () => {
     const text = doc.body.textContent ?? ''
     expect(text).toContain('코드')
     expect(text).toContain('형광')
+  })
+
+  it('comment: data-comment-id 앵커 + commentId round-trip 보존', () => {
+    const editor = createTestEditor(['comment'])
+    const input =
+      '<p>이 문장에 <span data-comment-id="c-abc-123">코멘트 단 부분</span>이 있다.</p>'
+    const output = roundTrip(editor, input)
+    const doc = parseDom(output)
+
+    const span = doc.querySelector('span[data-comment-id]')
+    expect(span, 'comment 앵커 span 누락').not.toBeNull()
+    expect(span?.getAttribute('data-comment-id')).toBe('c-abc-123')
+    expect(span?.textContent).toBe('코멘트 단 부분')
+
+    // 본문 텍스트 보존
+    expect(doc.body.textContent ?? '').toContain('이 문장에')
   })
 })

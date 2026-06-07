@@ -18,4 +18,5 @@ export type {
   ImageExtensionOptions,
   TablesExtensionOptions,
   MarksExtensionOptions,
+  CommentExtensionOptions,
 } from './types'
