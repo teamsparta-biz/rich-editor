@@ -79,6 +79,8 @@ export function RichEditor(props: RichEditorProps) {
   const {
     initialHtml = '',
     onChangeHtml,
+    initialJson,
+    onChangeJson,
     extensions,
     readOnly = false,
     placeholder = '',
@@ -111,11 +113,12 @@ export function RichEditor(props: RichEditorProps) {
 
   const editor = useEditor({
     extensions: resolvedExtensions,
-    content: initialHtml,
+    content: initialJson ?? initialHtml, // initialJson 우선(JSON 모드), 없으면 HTML
     editable: !readOnly,
     autofocus,
     onUpdate: ({ editor: ed }) => {
       onChangeHtml?.(htmlSerializer.toHtml(ed))
+      onChangeJson?.(ed.getJSON())
     },
     onSelectionUpdate: ({ editor: ed }) => {
       const { from, to } = ed.state.selection
@@ -130,13 +133,23 @@ export function RichEditor(props: RichEditorProps) {
     onEditorReady?.(editor)
   }, [editor, onEditorReady])
 
+  // HTML 모드 외부 동기화 — initialJson 미사용 시에만(JSON 모드와 이중 동기화 충돌 회피)
   useEffect(() => {
-    if (!editor) return
+    if (!editor || initialJson !== undefined) return
     const current = htmlSerializer.toHtml(editor)
     if (current !== initialHtml) {
       htmlSerializer.fromHtml(editor, initialHtml)
     }
-  }, [editor, initialHtml])
+  }, [editor, initialHtml, initialJson])
+
+  // JSON 모드 외부 동기화 — initialJson 제공 시. getJSON 비교로 불필요한 setContent 회피.
+  useEffect(() => {
+    if (!editor || initialJson === undefined) return
+    const current = JSON.stringify(editor.getJSON())
+    if (current !== JSON.stringify(initialJson)) {
+      editor.commands.setContent(initialJson, false)
+    }
+  }, [editor, initialJson])
 
   useEffect(() => {
     if (!editor) return
