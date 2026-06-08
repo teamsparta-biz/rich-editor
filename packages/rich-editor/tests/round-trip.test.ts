@@ -284,3 +284,32 @@ describe('B 회귀 — 9개 확장 round-trip 보존', () => {
     expect(doc.body.textContent ?? '').toContain('이 문장에')
   })
 })
+
+describe('JSON I/O — getJSON/setContent round-trip (charter 본문 저장 경로)', () => {
+  it('comment 마크 포함 JSON round-trip 보존 (commentId 박제)', () => {
+    const editor = createTestEditor(['marks', 'comment'])
+    // HTML로 본문 주입 → JSON 추출 → 그 JSON으로 다시 setContent → JSON 재추출이 동일 구조
+    htmlSerializer.fromHtml(
+      editor,
+      '<p>이 문장에 <span data-comment-id="c-json-1">앵커</span> 포함.</p>',
+    )
+    const json1 = editor.getJSON()
+    editor.commands.setContent(json1, false)
+    const json2 = editor.getJSON()
+    expect(json2).toEqual(json1)
+    // comment 마크 commentId가 JSON 내부에 무손실 보존 (HTML 변환 없이 박제)
+    const serialized = JSON.stringify(json2)
+    expect(serialized).toContain('c-json-1')
+    expect(serialized).toContain('comment')
+  })
+
+  it('headings/lists 구조 JSON round-trip 보존', () => {
+    const editor = createTestEditor(['headings', 'lists'])
+    htmlSerializer.fromHtml(editor, '<h1>제목</h1><ul><li><p>항목</p></li></ul>')
+    const json1 = editor.getJSON()
+    editor.commands.setContent(json1, false)
+    expect(editor.getJSON()).toEqual(json1)
+    expect(editor.getText()).toContain('제목')
+    expect(editor.getText()).toContain('항목')
+  })
+})

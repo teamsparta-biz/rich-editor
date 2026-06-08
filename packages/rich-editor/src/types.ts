@@ -1,6 +1,6 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor, JSONContent } from '@tiptap/core'
 
-export type { Editor }
+export type { Editor, JSONContent }
 
 /**
  * 확장 키.
@@ -169,6 +169,10 @@ export interface RichEditorProps {
   initialHtml?: string
   /** HTML 변경 시 호출 */
   onChangeHtml?: (html: string) => void
+  /** 초기 본문 JSON(TipTap doc). 주어지면 initialHtml보다 우선 — JSON 모드로 동작. */
+  initialJson?: JSONContent
+  /** 본문 변경 시 TipTap JSON 전달 (JSON 모드 저장 경로). onChangeHtml과 동시 사용 가능. */
+  onChangeJson?: (json: JSONContent) => void
   /** 확장 입력. 기본값 ['core']. */
   extensions?: ExtensionInput[]
   /** 편집 비활성 여부. 기본값 false */

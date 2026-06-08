@@ -30,6 +30,7 @@ const CORE_TYPES = [
   'ExtensionOptionsMap', // interface
   'Serializer', // interface
   'Editor', // re-export from @tiptap/core
+  'JSONContent', // re-export from @tiptap/core (JSON 본문 저장 타입)
 ] as const
 
 const VALUE_EXPORTS = [
@@ -48,7 +49,7 @@ describe('E 회귀 — 공개 API export 라인 (dist/index.d.ts)', () => {
     expect(existsSync(DTS_PATH), `dist/index.d.ts 없음 — pnpm build를 먼저 실행하세요`).toBe(true)
   })
 
-  it('옵션 인터페이스 10종 + 핵심 타입 7종 + 값 export 2종 (총 19개) 모두 검출', () => {
+  it('옵션 인터페이스 10종 + 핵심 타입 8종 + 값 export 2종 (총 20개) 모두 검출', () => {
     const content = readFileSync(DTS_PATH, 'utf8')
     const missing: string[] = []
 
@@ -66,12 +67,14 @@ describe('E 회귀 — 공개 API export 라인 (dist/index.d.ts)', () => {
 
     // 핵심 타입 7종
     for (const id of CORE_TYPES) {
-      if (id === 'Editor') {
-        // Editor는 @tiptap/core에서 re-export
-        const reExportRe = /export\s*\{\s*Editor\s*\}\s*from\s*['"]@tiptap\/core['"]/
+      if (id === 'Editor' || id === 'JSONContent') {
+        // Editor·JSONContent는 @tiptap/core에서 re-export (한 묶음에 함께 나올 수 있음)
+        const reExportRe = new RegExp(
+          String.raw`export\s+(?:type\s+)?\{[^}]*\b${id}\b[^}]*\}\s*from\s*['"]@tiptap\/core['"]`,
+        )
         if (!reExportRe.test(content)) {
           missing.push(
-            `핵심 타입 "Editor": "export { Editor } from '@tiptap/core'" re-export 누락`,
+            `핵심 타입 "${id}": "@tiptap/core" re-export 묶음에 포함되지 않음`,
           )
         }
         continue

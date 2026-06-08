@@ -3,6 +3,7 @@ export { htmlSerializer } from './serialization/HtmlSerializer'
 
 export type {
   Editor,
+  JSONContent,
   ExtensionInput,
   ExtensionKey,
   ExtensionSpec,
