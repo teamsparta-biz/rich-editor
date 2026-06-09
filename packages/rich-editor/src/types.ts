@@ -9,6 +9,7 @@ export type { Editor, JSONContent }
  * Phase 12 B2: + 'images' | 'tables' (후속)
  * Phase 14: + 'marks' (인라인 마크 6종 Bold/Italic/Strike/inline Code/Underline/Highlight)
  * Phase(charter): + 'comment' (인라인 앵커 마크 — 협업 코멘트, marks 번들과 분리)
+ * Phase 15: + 'blockquote' (인용문 블록 노드 — `> ` 입력룰·toggleBlockquote 명령)
  */
 export type ExtensionKey =
   | 'core'
@@ -21,6 +22,7 @@ export type ExtensionKey =
   | 'tables'
   | 'marks'
   | 'comment'
+  | 'blockquote'
 
 /**
  * 공개 옵션 타입.
@@ -53,6 +55,11 @@ export interface CodeBlockExtensionOptions {
 
 export interface TaskListExtensionOptions {
   nestedTasks?: boolean
+}
+
+export interface BlockquoteExtensionOptions {
+  /** blockquote 요소에 추가할 HTML 속성(className override 등). */
+  HTMLAttributes?: Record<string, unknown>
 }
 
 export interface ImageExtensionOptions {
@@ -133,6 +140,7 @@ export interface ExtensionOptionsMap {
   tables: TablesExtensionOptions
   marks: MarksExtensionOptions
   comment: CommentExtensionOptions
+  blockquote: BlockquoteExtensionOptions
 }
 
 /**
@@ -181,6 +189,12 @@ export interface RichEditorProps {
   placeholder?: string
   /** 마운트 시 자동 포커스. 기본값 false */
   autofocus?: boolean
+  /**
+   * 서식 툴바 표시 여부. 기본값 false. true면 편집(readOnly=false) 시 에디터 상단에
+   * 로드된 확장 기준 서식 버튼(굵게·제목·목록·인용 등)을 노출한다. readOnly면 미표시.
+   * 마크다운 단축키만으로는 발견성이 낮은 서식 기능을 버튼으로 제공한다.
+   */
+  toolbar?: boolean
   /** 외부 스타일 override용 클래스. 'rte-editor'와 함께 적용됨 */
   className?: string
   /** editor 인스턴스 접근 콜백 (마운트 시 1회) */

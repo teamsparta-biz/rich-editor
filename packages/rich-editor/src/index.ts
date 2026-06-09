@@ -1,6 +1,8 @@
 export { RichEditor } from './Editor'
+export { Toolbar } from './Toolbar'
 export { htmlSerializer } from './serialization/HtmlSerializer'
 
+export type { ToolbarProps } from './Toolbar'
 export type {
   Editor,
   JSONContent,
@@ -20,4 +22,5 @@ export type {
   TablesExtensionOptions,
   MarksExtensionOptions,
   CommentExtensionOptions,
+  BlockquoteExtensionOptions,
 } from './types'

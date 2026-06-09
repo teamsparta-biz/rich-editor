@@ -20,6 +20,7 @@ const OPTION_INTERFACES = [
   'TablesExtensionOptions',
   'MarksExtensionOptions',
   'CommentExtensionOptions',
+  'BlockquoteExtensionOptions',
 ] as const
 
 const CORE_TYPES = [
@@ -29,12 +30,14 @@ const CORE_TYPES = [
   'ExtensionSpec', // interface
   'ExtensionOptionsMap', // interface
   'Serializer', // interface
+  'ToolbarProps', // interface (Toolbar 컴포넌트 props)
   'Editor', // re-export from @tiptap/core
   'JSONContent', // re-export from @tiptap/core (JSON 본문 저장 타입)
 ] as const
 
 const VALUE_EXPORTS = [
   'RichEditor', // declare function
+  'Toolbar', // declare function (서식 툴바 컴포넌트)
   'htmlSerializer', // declare const
 ] as const
 
@@ -49,7 +52,7 @@ describe('E 회귀 — 공개 API export 라인 (dist/index.d.ts)', () => {
     expect(existsSync(DTS_PATH), `dist/index.d.ts 없음 — pnpm build를 먼저 실행하세요`).toBe(true)
   })
 
-  it('옵션 인터페이스 10종 + 핵심 타입 8종 + 값 export 2종 (총 20개) 모두 검출', () => {
+  it('옵션 인터페이스 11종 + 핵심 타입 9종 + 값 export 3종 (총 23개) 모두 검출', () => {
     const content = readFileSync(DTS_PATH, 'utf8')
     const missing: string[] = []
 
