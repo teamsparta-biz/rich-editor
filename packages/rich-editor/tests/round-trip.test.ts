@@ -283,6 +283,27 @@ describe('B 회귀 — 9개 확장 round-trip 보존', () => {
     // 본문 텍스트 보존
     expect(doc.body.textContent ?? '').toContain('이 문장에')
   })
+
+  it('blockquote: 인용문 블록 + 내부 단락 텍스트 round-trip 보존', () => {
+    const editor = createTestEditor(['blockquote'])
+    const input = '<blockquote><p>인용된 문장입니다.</p></blockquote>'
+    const output = roundTrip(editor, input)
+    const doc = parseDom(output)
+
+    const quote = doc.querySelector('blockquote')
+    expect(quote, 'blockquote 노드 누락').not.toBeNull()
+    expect(quote?.textContent).toContain('인용된 문장입니다.')
+  })
+
+  it('blockquote: toggleBlockquote 명령으로 인용문 토글', () => {
+    // `> ` 입력룰은 TipTap Blockquote 내장(실제 타이핑 시 발화)이라 jsdom 프로그램
+    // 삽입으로는 검증 불가 — 결정적인 toggleBlockquote 명령으로 노드 동작을 확인한다.
+    const editor = createTestEditor(['blockquote'])
+    editor.commands.setContent('<p>문장</p>')
+    editor.commands.selectAll()
+    editor.chain().focus().toggleBlockquote().run()
+    expect(editor.isActive('blockquote'), 'toggleBlockquote 후 blockquote 미활성').toBe(true)
+  })
 })
 
 describe('JSON I/O — getJSON/setContent round-trip (charter 본문 저장 경로)', () => {

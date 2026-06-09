@@ -3,6 +3,7 @@ import { EditorContent, useEditor } from '@tiptap/react'
 import { htmlSerializer } from './serialization/HtmlSerializer'
 import { resolveExtensions } from './extensions/registry'
 import { commentPluginKey } from './extensions/comment'
+import { Toolbar } from './Toolbar'
 import type {
   CommentExtensionOptions,
   CoreExtensionOptions,
@@ -85,6 +86,7 @@ export function RichEditor(props: RichEditorProps) {
     readOnly = false,
     placeholder = '',
     autofocus = false,
+    toolbar = false,
     className,
     onEditorReady,
     onCommentClick,
@@ -166,6 +168,7 @@ export function RichEditor(props: RichEditorProps) {
 
   return (
     <div className={combinedClassName}>
+      {toolbar && !readOnly && <Toolbar editor={editor} />}
       <EditorContent editor={editor} />
     </div>
   )

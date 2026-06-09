@@ -15,6 +15,7 @@ import { imagesExtensionFactory } from './images'
 import { tablesExtensionFactory } from './tables'
 import { marksExtensionFactory } from './marks'
 import { commentExtensionFactory } from './comment'
+import { blockquoteExtensionFactory } from './blockquote'
 
 type ExtensionFactory<K extends ExtensionKey> = (
   options?: ExtensionOptionsMap[K],
@@ -35,6 +36,7 @@ const registry: RegistryEntries = {
   tables: { key: 'tables', factory: tablesExtensionFactory },
   marks: { key: 'marks', factory: marksExtensionFactory },
   comment: { key: 'comment', factory: commentExtensionFactory },
+  blockquote: { key: 'blockquote', factory: blockquoteExtensionFactory },
 }
 
 function normalize(input: ExtensionInput): ExtensionSpec {
