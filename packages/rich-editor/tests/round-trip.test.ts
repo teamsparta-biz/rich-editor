@@ -304,6 +304,31 @@ describe('B 회귀 — 9개 확장 round-trip 보존', () => {
     editor.chain().focus().toggleBlockquote().run()
     expect(editor.isActive('blockquote'), 'toggleBlockquote 후 blockquote 미활성').toBe(true)
   })
+
+  it('horizontalRule: 구분선 노드 round-trip 보존 (<hr>)', () => {
+    const editor = createTestEditor(['horizontalRule'])
+    const input = '<p>위 단락</p><hr><p>아래 단락</p>'
+    const output = roundTrip(editor, input)
+    const doc = parseDom(output)
+
+    const hr = doc.querySelector('hr')
+    expect(hr, 'hr 노드 누락').not.toBeNull()
+
+    // 구분선 앞뒤 단락 텍스트 보존
+    const text = doc.body.textContent ?? ''
+    expect(text).toContain('위 단락')
+    expect(text).toContain('아래 단락')
+  })
+
+  it('horizontalRule: setHorizontalRule 명령으로 구분선 삽입', () => {
+    // `---`·`***` 입력룰은 TipTap HorizontalRule 내장(실제 타이핑 시 발화)이라 jsdom
+    // 프로그램 삽입으로는 검증 불가 — 결정적인 setHorizontalRule 명령으로 노드 삽입을 확인한다.
+    const editor = createTestEditor(['horizontalRule'])
+    editor.commands.setContent('<p>문장</p>')
+    editor.chain().focus().setHorizontalRule().run()
+    const html = htmlSerializer.toHtml(editor)
+    expect(html, 'setHorizontalRule 후 <hr> 미삽입').toContain('<hr')
+  })
 })
 
 describe('JSON I/O — getJSON/setContent round-trip (charter 본문 저장 경로)', () => {

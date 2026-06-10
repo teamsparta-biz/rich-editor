@@ -21,6 +21,7 @@ const OPTION_INTERFACES = [
   'MarksExtensionOptions',
   'CommentExtensionOptions',
   'BlockquoteExtensionOptions',
+  'HorizontalRuleExtensionOptions',
 ] as const
 
 const CORE_TYPES = [
@@ -52,7 +53,7 @@ describe('E 회귀 — 공개 API export 라인 (dist/index.d.ts)', () => {
     expect(existsSync(DTS_PATH), `dist/index.d.ts 없음 — pnpm build를 먼저 실행하세요`).toBe(true)
   })
 
-  it('옵션 인터페이스 11종 + 핵심 타입 9종 + 값 export 3종 (총 23개) 모두 검출', () => {
+  it('옵션 인터페이스 12종 + 핵심 타입 9종 + 값 export 3종 (총 24개) 모두 검출', () => {
     const content = readFileSync(DTS_PATH, 'utf8')
     const missing: string[] = []
 

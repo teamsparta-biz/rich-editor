@@ -10,6 +10,7 @@ export type { Editor, JSONContent }
  * Phase 14: + 'marks' (인라인 마크 6종 Bold/Italic/Strike/inline Code/Underline/Highlight)
  * Phase(charter): + 'comment' (인라인 앵커 마크 — 협업 코멘트, marks 번들과 분리)
  * Phase 15: + 'blockquote' (인용문 블록 노드 — `> ` 입력룰·toggleBlockquote 명령)
+ * Phase(14-60): + 'horizontalRule' (구분선 블록 노드 — `---`·`***` 입력룰·setHorizontalRule 명령)
  */
 export type ExtensionKey =
   | 'core'
@@ -23,6 +24,7 @@ export type ExtensionKey =
   | 'marks'
   | 'comment'
   | 'blockquote'
+  | 'horizontalRule'
 
 /**
  * 공개 옵션 타입.
@@ -59,6 +61,11 @@ export interface TaskListExtensionOptions {
 
 export interface BlockquoteExtensionOptions {
   /** blockquote 요소에 추가할 HTML 속성(className override 등). */
+  HTMLAttributes?: Record<string, unknown>
+}
+
+export interface HorizontalRuleExtensionOptions {
+  /** hr 요소에 추가할 HTML 속성(className override 등). */
   HTMLAttributes?: Record<string, unknown>
 }
 
@@ -141,6 +148,7 @@ export interface ExtensionOptionsMap {
   marks: MarksExtensionOptions
   comment: CommentExtensionOptions
   blockquote: BlockquoteExtensionOptions
+  horizontalRule: HorizontalRuleExtensionOptions
 }
 
 /**

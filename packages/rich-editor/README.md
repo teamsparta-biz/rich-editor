@@ -128,6 +128,7 @@ export function Editor() {
 | `images` | 드래그·붙여넣기·툴바 삽입 이미지 (figure+figcaption) | `imageUpload?: (file) => Promise<string>` (훅 미주입 시 삽입 거부) / `allowCaption?` / `allowPaste?` / `allowDrop?` / `acceptedTypes?` / `maxSize?` |
 | `tables` | 머리글 행 + 셀 병합 지원 표 | `allowMerge?: boolean` (default `true`) / `defaultRows?: number` (default `3`) / `defaultCols?: number` (default `3`) · `resizable`은 내부 고정 `false` |
 | `marks` | 인라인 마크 6종 (Bold/Italic/Strike/inline Code/Underline/Highlight) + 단축키·마크다운 입력 단축어 | `bold?`/`italic?`/`strike?`/`code?`/`underline?`/`highlight?: boolean` (전부 default `true`) / `highlightColor?: string` (default `'#fef08a'` 노랑) |
+| `horizontalRule` | 구분선(`<hr>`) — `---`·`***` 입력룰 + `setHorizontalRule` 명령 + 툴바 "구분선" 버튼 | `HTMLAttributes?: Record<string, unknown>` (hr 요소 속성 override) |
 
 각 키는 배열 요소로 `'headings'`처럼 문자열로 쓰거나 `{ key: 'headings', options: { ... } }` 스펙 객체로 쓸 수 있습니다. 동일 키를 여러 번 넣으면 뒤에 주입된 옵션이 적용됩니다.
 
@@ -139,7 +140,7 @@ export function Editor() {
 - 유틸: `htmlSerializer` (HTML ↔ editor 상태 수동 변환)
 - 타입:
   - `RichEditorProps` / `ExtensionKey` / `ExtensionSpec` / `ExtensionInput` / `ExtensionOptionsMap` / `Serializer` / `Editor` (TipTap re-export)
-  - 옵션 타입 9종: `CoreExtensionOptions`, `HeadingsExtensionOptions`, `ListsExtensionOptions`, `LinksExtensionOptions`, `CodeBlockExtensionOptions`, `TaskListExtensionOptions`, `ImageExtensionOptions`, `TablesExtensionOptions`, `MarksExtensionOptions`
+  - 옵션 타입: `CoreExtensionOptions`, `HeadingsExtensionOptions`, `ListsExtensionOptions`, `LinksExtensionOptions`, `CodeBlockExtensionOptions`, `TaskListExtensionOptions`, `ImageExtensionOptions`, `TablesExtensionOptions`, `MarksExtensionOptions`, `CommentExtensionOptions`, `BlockquoteExtensionOptions`, `HorizontalRuleExtensionOptions`
 
 ### 서브패스
 
