@@ -230,6 +230,16 @@
   margin: 0.75em 0;
 }
 
+/* horizontalRule (구분선) — 기존 회색 보더 시각 언어와 일관 */
+.rte-editor .ProseMirror hr {
+  border: none;
+  border-top: 1px solid #d4d4d8;
+  margin: 1em 0;
+}
+.rte-editor .ProseMirror hr.ProseMirror-selectednode {
+  border-top-color: var(--rte-focus-color, #3b82f6);
+}
+
 /* images */
 .rte-editor .ProseMirror figure {
   margin: 1em 0;

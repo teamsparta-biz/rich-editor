@@ -23,4 +23,5 @@ export type {
   MarksExtensionOptions,
   CommentExtensionOptions,
   BlockquoteExtensionOptions,
+  HorizontalRuleExtensionOptions,
 } from './types'

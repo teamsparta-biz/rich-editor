@@ -117,6 +117,15 @@ const BUTTONS: ButtonSpec[] = [
     run: (e) => e.chain().focus().toggleBlockquote().run(),
   },
   {
+    key: 'horizontalRule',
+    label: '― 구분선',
+    title: '구분선',
+    available: (e) => hasExtension(e, 'horizontalRule'),
+    // 구분선은 삽입형 노드 — 토글/활성 상태가 없으므로 항상 비활성으로 표시.
+    isActive: () => false,
+    run: (e) => e.chain().focus().setHorizontalRule().run(),
+  },
+  {
     key: 'code',
     label: '</>',
     title: '인라인 코드',
